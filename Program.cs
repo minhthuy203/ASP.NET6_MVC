@@ -1,5 +1,12 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.EntityFrameworkCore;
+using MVC_Csharp.DatabaseContext;
 
+var builder = WebApplication.CreateBuilder(args);
+var connectionstring = builder.Configuration.GetConnectionString("MvcConnetionString") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found'");
+builder.Services.AddDbContext<MvcDBContext>(options =>
+{
+    options.UseSqlServer(connectionstring);
+});
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
